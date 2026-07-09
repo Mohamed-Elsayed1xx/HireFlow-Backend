@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/HireFlow.API/HireFlow.API.csproj" />
+    <Project Path="src/HireFlow.Application/HireFlow.Application.csproj" />
+    <Project Path="src/HireFlow.Domain/HireFlow.Domain.csproj" />
+    <Project Path="src/HireFlow.Infrastructure/HireFlow.Infrastructure.csproj" />
+  </Folder>
+</Solution>

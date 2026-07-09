@@ -1,0 +1,29 @@
+# Build artifacts
+[Bb]in/
+[Oo]bj/
+
+# IDE
+.vs/
+.vscode/*
+!.vscode/extensions.json
+*.user
+*.suo
+
+# Local secrets — appsettings.json (committed) has empty placeholders on
+# purpose; appsettings.Development.json holds your real local Postgres
+# password and JWT secret and must never be committed. Production secrets
+# belong in environment variables / a secrets manager on the host, not in
+# a file in this repo at all.
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.local.json
+
+# Uploaded candidate CVs — real PII, never belongs in git history
+App_Data/uploads/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

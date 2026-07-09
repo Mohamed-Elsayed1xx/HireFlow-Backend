@@ -1,0 +1,20 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "ConnectionStrings": {
+    "DefaultConnection": "Host=localhost;Port=5432;Database=hireflow;Username=postgres;Password=CHANGE_ME"
+  },
+  "Jwt": {
+    "Secret": "dev-only-secret-key-replace-before-deploying-CHANGE-ME-32chars+",
+    "Issuer": "HireFlow.API",
+    "Audience": "HireFlow.Client"
+  },
+  "SuperAdmin": {
+    "Email": "admin@hireflow.com",
+    "Password": "CHANGE_ME_locally_only_never_commit_real_value"
+  }
+}
