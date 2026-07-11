@@ -95,15 +95,16 @@ public static class ServiceExtensions
         "http://localhost:4200",
         "http://localhost:4300",
         "http://localhost:4400",
+        // Real Vercel domains — three separate deployments, one per portal,
+        // no custom domain (hireflow.com) is set up yet. Update these if/when
+        // the *.vercel.app URLs change (e.g. a redeploy that gets renamed) or
+        // once a custom domain is pointed at them, and remove the *.hireflow.com
+        // entries below once they're no longer needed for anything.
+        "https://hireflow-app-pied.vercel.app",
+        "https://hireflow-admin-beta.vercel.app",
+        "https://hire-flow-frontend-henna.vercel.app",
         "https://app.hireflow.com",
         "https://admin.hireflow.com",
-        // Was "candidate.hireflow.com" — didn't match the candidate portal's
-        // actual configured production domain (projects/candidate/src/environments/environment.prod.ts
-        // sets portalDomain: 'careers.hireflow.com'). As written, every API
-        // call from the real candidate portal in production would have been
-        // silently blocked by CORS — the browser rejects the response before
-        // it ever reaches app code, so this would have looked like "the site
-        // is broken" with no obvious error pointing here.
         "https://careers.hireflow.com")
     .AllowAnyMethod()
     .AllowAnyHeader()
