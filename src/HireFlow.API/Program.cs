@@ -19,9 +19,17 @@ using (var scope = app.Services.CreateScope())
     await Seeder.SeedAsync(context, passwordService, builder.Configuration, logger);
 
     // Demo data (jobs, candidates, applications, interviews, evaluations) —
-    // Development only, and a no-op after the first run / once real
-    // candidates exist. See DemoDataSeeder for the idempotency guard.
-    if (app.Environment.IsDevelopment())
+    // safe to run anywhere because of DemoDataSeeder's own guards (it does
+    // nothing unless a company already exists, and it's idempotent — it
+    // checks for its own marker job before inserting anything). Runs
+    // automatically in Development. Outside Development (Railway, etc.) it
+    // only runs if SEED_DEMO_DATA=true is explicitly set as an environment
+    // variable — this is a one-time "populate the demo" switch, not
+    // something that should stay on once real companies start using the
+    // product. Turn it back off (remove the variable) after seeding once.
+    var seedDemoData = app.Environment.IsDevelopment()
+        || builder.Configuration["SEED_DEMO_DATA"] == "true";
+    if (seedDemoData)
     {
         await DemoDataSeeder.SeedAsync(context, passwordService);
     }
