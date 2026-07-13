@@ -20,6 +20,15 @@ public class AppDbContext : DbContext
     //   - Anonymous requests (e.g. the public job board — those intentionally
     //     span every company's postings)
     //   - SuperAdmin (the admin portal manages every company by design)
+    //   - Any authenticated user with no "companyId" claim at all — this is
+    //     candidates. Candidates aren't scoped to a company, so there's no
+    //     value to compare against; treating a missing claim as "restrict to
+    //     null" (the original bug here) silently matched zero rows for every
+    //     candidate, including on the public job board once they logged in.
+    //     Candidate-specific data access (their own applications, profile,
+    //     CV) is already scoped by CandidateId in its own handlers/queries,
+    //     independent of this company filter, so bypassing it for candidates
+    //     doesn't open up anything they weren't already allowed to see.
     private readonly bool _bypassTenantFilter;
     private readonly Guid? _currentCompanyId;
 
@@ -42,7 +51,13 @@ public class AppDbContext : DbContext
         }
 
         var companyIdClaim = user.FindFirstValue("companyId");
-        _currentCompanyId = string.IsNullOrEmpty(companyIdClaim) ? null : Guid.Parse(companyIdClaim);
+        if (string.IsNullOrEmpty(companyIdClaim))
+        {
+            _bypassTenantFilter = true;
+            return;
+        }
+
+        _currentCompanyId = Guid.Parse(companyIdClaim);
     }
 
     public DbSet<Company> Companies => Set<Company>();
